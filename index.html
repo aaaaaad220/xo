@@ -1,0 +1,175 @@
+<html>
+
+    <head>
+
+        <meta charset="utf-8"> <!--يعرض بالعربي و الانجليزي-->
+        <title> x/o  </title> <!--عنوان الموقع -->
+        <link href="1.png" rel="icon"> <!-- صوره الموقع -->
+        <meta name="author"content="Faris Fadi"> <!-- اسم منشاء الموقع -->
+        <link rel=" stylesheet" src="style.css">
+
+        <script src="main.js" ></script>
+    </head>
+
+    <body>
+
+        <script> 
+            let board = ["", "", "", "", "", "", "", "", ""]; // الخلايا
+let currentPlayer = "X"; // اللاعب الحالي
+let gameOver = false;
+
+function makeMove(index) {
+    if (board[index] === "" && !gameOver) {
+        board[index] = currentPlayer;
+        document.getElementsByClassName('cell')[index].textContent = currentPlayer;
+        checkWinner();
+        currentPlayer = (currentPlayer === "X") ? "O" : "X"; // التبديل بين اللاعبين
+    }
+}
+
+function checkWinner() {
+    const winningCombinations = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+
+    for (let combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+            document.getElementById("winner-message").textContent = `${board[a]} فاز!`;
+            gameOver = true;
+            return;
+        }
+    }
+
+    // التحقق من التعادل
+    if (!board.includes("") && !gameOver) {
+        document.getElementById("winner-message").textContent = "التعادل!";
+        gameOver = true;
+    }
+}
+
+function resetGame() {
+    board = ["", "", "", "", "", "", "", "", ""];
+    currentPlayer = "X";
+    gameOver = false;
+    document.getElementById("winner-message").textContent = "";
+    
+    let cells = document.getElementsByClassName('cell');
+    for (let cell of cells) {
+        cell.textContent = "";
+    }
+}
+
+            </script>
+
+            <!------ css -------->
+
+        <style>
+            /* style.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    direction: rtl; /* لجعل النصوص تظهر من اليمين لليسار */
+}
+
+.container {
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-gap: 10px;
+    margin-bottom: 20px;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    font-size: 2rem;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.cell:hover {
+    background-color: #ddd;
+}
+
+.message {
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#winner-message {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #e74c3c;
+}
+
+        </style>
+        <!--Html--------------------------------------------------------------------------->
+        <div class="container">
+            <h1>لعبة X/O</h1>
+            <div class="game-board">
+                <button class="cell" onclick="makeMove(0)"></button>
+                <button class="cell" onclick="makeMove(1)"></button>
+                <button class="cell" onclick="makeMove(2)"></button>
+                <button class="cell" onclick="makeMove(3)"></button>
+                <button class="cell" onclick="makeMove(4)"></button>
+                <button class="cell" onclick="makeMove(5)"></button>
+                <button class="cell" onclick="makeMove(6)"></button>
+                <button class="cell" onclick="makeMove(7)"></button>
+                <button class="cell" onclick="makeMove(8)"></button>
+            </div>
+            <div class="message">
+                <button onclick="resetGame()">إعادة اللعبة</button>
+                <p id="winner-message"></p>
+            </div>
+        </div>
+    
+        <script src="main.js"></script>
+        
+
+
+        
+
+
+    </body>
+</html>
